@@ -23,7 +23,6 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.keshavsoftv1.presentation.MainPager
 import com.example.keshavsoftv2.presentation.theme.KeshavSoftV2Theme
 import com.example.keshavsoftv2.R
 
@@ -34,8 +33,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MainPager(onClose = { finish() })
+            RootPager(onClose = { finish() })
         }
+
 
 
     }

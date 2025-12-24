@@ -1,14 +1,11 @@
-package com.example.keshavsoftv1.presentation
+package com.example.keshavsoftv2.presentation
 
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
@@ -25,11 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.example.keshavsoftv2.R
-
-import androidx.compose.foundation.background
-import androidx.compose.ui.draw.clip
-
-// ---------- PAGE 0 : Call Screen ----------
+import kotlinx.coroutines.delay
 
 @Composable
 fun CallScreen(
@@ -38,7 +31,6 @@ fun CallScreen(
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
-
     val phoneNumber = stringResource(id = R.string.call_number)
 
     var pressed by remember { mutableStateOf(false) }
@@ -53,7 +45,7 @@ fun CallScreen(
 
     LaunchedEffect(pressed) {
         if (pressed) {
-            kotlinx.coroutines.delay(160)
+            delay(160)
             pressed = false
         }
     }
@@ -115,71 +107,5 @@ fun CallScreen(
                 contentColor = Color.White
             )
         )
-    }
-}
-
-// ---------- PAGE 1 : Greetings Screen ----------
-
-@Composable
-fun InfoScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Greetings from", fontSize = 12.sp)
-            Spacer(modifier = Modifier.height(4.dp))
-
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        fontSize = 16.sp
-                    )
-        }
-    }
-}
-
-// ---------- PAGER : Swipe between screens ----------
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun MainPager(onClose: () -> Unit) {
-    val pagerState = rememberPagerState(pageCount = { 2 })
-
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        // ----- PAGES -----
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            when (page) {
-                0 -> CallScreen(onClose = onClose, showSwipeHint = true)
-                1 -> InfoScreen()
-            }
-        }
-
-        // ----- TOP DOTS INDICATOR -----
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            repeat(pagerState.pageCount) { index ->
-                val selected = pagerState.currentPage == index
-
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 2.dp)
-                        .size(if (selected) 6.dp else 4.dp)
-                        .clip(CircleShape)
-                        .background(
-                            if (selected)
-                                Color.White.copy(alpha = 0.9f)
-                            else
-                                Color.LightGray.copy(alpha = 0.6f)
-                        )
-                )
-            }
-        }
     }
 }
