@@ -61,6 +61,15 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
+        // Standard Material Icons
+        implementation("androidx.compose.material:material-icons-core:1.7.0")
+        // Extended icons like 'Send'
+        implementation("androidx.compose.material:material-icons-extended:1.7.0")
+
+        // Ensure Wear Compose libraries are consistent
+        implementation("androidx.wear.compose:compose-material:1.4.0")
+        implementation("androidx.wear.compose:compose-foundation:1.4.0")
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)

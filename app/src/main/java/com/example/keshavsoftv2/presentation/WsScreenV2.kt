@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
+import com.example.keshavsoftv2.presentation.common.MessageBubble
 import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun WsScreenV2(isActive: Boolean) {
@@ -47,40 +48,6 @@ fun WsScreenV2(isActive: Boolean) {
             MessageBubble(
                 text = messages[index],
                 isIncoming = true
-            )
-        }
-    }
-}
-
-@Composable
-fun MessageBubble(
-    text: String,
-    isIncoming: Boolean
-) {
-    val bgColor =
-        if (isIncoming) Color(0xFF2A2A2A) else Color(0xFF1E88E5)
-
-    val alignment =
-        if (isIncoming) Alignment.CenterStart else Alignment.CenterEnd
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 6.dp, vertical = 4.dp),
-        contentAlignment = alignment
-    ) {
-        Box(
-            modifier = Modifier
-                .background(
-                    color = bgColor,
-                    shape = RoundedCornerShape(14.dp)
-                )
-                .padding(horizontal = 10.dp, vertical = 6.dp)
-        ) {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.body2,
-                color = Color.White
             )
         }
     }

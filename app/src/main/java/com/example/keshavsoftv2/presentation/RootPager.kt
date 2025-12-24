@@ -29,7 +29,7 @@ fun RootPager(onClose: () -> Unit) {
             when (page) {
                 0 -> CallScreen(onClose = onClose, showSwipeHint = true)
                 1 -> InfoScreen()
-                2 -> WsScreenV2(isActive = pagerState.currentPage == 2)
+                2 -> WsScreenV3(isActive = pagerState.currentPage == 2)
                 3 -> WsScreen(isActive = pagerState.currentPage == 3)
                 4 -> WsScreenV1(isActive = pagerState.currentPage == 4)
             }
