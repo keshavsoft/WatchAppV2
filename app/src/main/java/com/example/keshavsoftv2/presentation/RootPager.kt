@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RootPager(onClose: () -> Unit) {
 
-    val pagerState = rememberPagerState(pageCount = { 3 })
+    val pagerState = rememberPagerState(pageCount = { 4 })
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -30,6 +30,7 @@ fun RootPager(onClose: () -> Unit) {
                 0 -> CallScreen(onClose = onClose, showSwipeHint = true)
                 1 -> InfoScreen()
                 2 -> WsScreen()
+                3 -> WsScreenV1()
             }
         }
 
