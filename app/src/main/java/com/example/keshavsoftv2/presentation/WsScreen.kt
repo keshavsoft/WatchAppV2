@@ -10,27 +10,24 @@ import androidx.wear.compose.material.MaterialTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun WsScreen() {
+fun WsScreen(isActive: Boolean) {
 
     var latestMessage by remember { mutableStateOf("Waiting for data...") }
 
-    // 🔌 Connect & Disconnect WebSocket safely
-    DisposableEffect(Unit) {
-        VoiceWsClient.connect()
-
-        onDispose {
-            VoiceWsClient.close()
+    // ✅ Connect ONLY when active
+    LaunchedEffect(isActive) {
+        if (isActive) {
+            VoiceWsClient.connect()
         }
     }
 
-    // 📡 Collect messages from WebSocket
+    // ✅ Collect messages
     LaunchedEffect(Unit) {
         VoiceWsClient.incomingMessages.collectLatest { msg ->
             latestMessage = msg
         }
     }
 
-    // 🖥️ UI (Watch friendly)
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

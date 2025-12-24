@@ -10,18 +10,18 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun WsScreenV1() {
-
+fun WsScreenV1(isActive: Boolean) {
     MaterialTheme {
 
         val messages = remember { mutableStateListOf<String>() }
         val listState = rememberScalingLazyListState()
 
-        // 🔌 IMPORTANT: Start WebSocket
-        DisposableEffect(Unit) {
-            VoiceWsClient.connect()
-            onDispose { VoiceWsClient.close() }
+        LaunchedEffect(isActive) {
+            if (isActive) {
+                VoiceWsClient.connect()
+            }
         }
+
 
         // 📡 Collect ALL incoming messages
         LaunchedEffect(Unit) {
