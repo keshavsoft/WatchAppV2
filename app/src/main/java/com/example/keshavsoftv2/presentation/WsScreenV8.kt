@@ -23,6 +23,7 @@ fun WsScreenV8(isActive: Boolean) {
 
     val messages = remember { mutableStateListOf<String>() }
     val listState = rememberScalingLazyListState()
+
     val context = LocalContext.current
     val view = LocalView.current
 
@@ -40,24 +41,30 @@ fun WsScreenV8(isActive: Boolean) {
         }
     }
 
-    /* ───────── VOICE CONTROLLER + LAUNCHERS ───────── */
+    /* ───────── CONTROLLER HOLDER (KEY FIX) ───────── */
 
-    lateinit var voiceController: VoiceInputControllerV7
+    val voiceControllerState = remember {
+        mutableStateOf<VoiceInputControllerV7?>(null)
+    }
+
+    /* ───────── ACTIVITY LAUNCHERS ───────── */
 
     val voiceLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        voiceController.onVoiceResult(result)
+        voiceControllerState.value?.onVoiceResult(result)
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        voiceController.onPermissionResult(granted)
+        voiceControllerState.value?.onPermissionResult(granted)
     }
 
-    voiceController = remember {
-        VoiceInputControllerV7(
+    /* ───────── VOICE CONTROLLER (SAFE INIT) ───────── */
+
+    LaunchedEffect(Unit) {
+        voiceControllerState.value = VoiceInputControllerV7(
             context = context,
             view = view,
             voiceLauncher = voiceLauncher,
@@ -99,7 +106,9 @@ fun WsScreenV8(isActive: Boolean) {
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 8.dp)
                     .size(ButtonDefaults.SmallButtonSize),
-                onClick = voiceController::handleMicClick
+                onClick = {
+                    voiceControllerState.value?.handleMicClick()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Mic,
